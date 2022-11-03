@@ -52,3 +52,7 @@ def make_input_bin_od(dbc_dg, folder_bin, dt_od, tbnm_binfo):
         fw_zones.write(struct.pack(tmpfmt, *tuple(tmpwlist)))
     fw_zones.close()
     fw_od.close()
+
+
+if __name__ == "__main__":
+    print('aaa')

@@ -46,7 +46,7 @@ def getImpalaConn(DBENV):
         CONNECT_PORT = 21050
         CONNECT_AUTHMECH = "LDAP"
         CONNECT_USER = "hahnhyok"
-        CONNECT_PASSWD = "825316@love"
+        CONNECT_PASSWD = "tesnetwork1!"
         conn = connect(host=CONNECT_HOST, port=CONNECT_PORT, auth_mechanism=CONNECT_AUTHMECH,
                        user=CONNECT_USER, password=CONNECT_PASSWD)
         # conn = connect(host=CONNECT_HOST, port=CONNECT_PORT,

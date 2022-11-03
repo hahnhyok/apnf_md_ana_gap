@@ -29,7 +29,7 @@ def job(mdir):
     # edatestr = "20221010"
 
     # sdate = datetime.datetime.strptime("20221016", "%Y%m%d")
-    sdate = datetime.datetime.now() - relativedelta(months=3)
+    sdate = datetime.datetime.now() - datetime.timedelta(days=90)    # - relativedelta(months=3)
     edate = datetime.datetime.now() #  - datetime.timedelta(days=1)
     edatestr = edate.strftime("%Y%m%d")
     curlp = 0
@@ -66,7 +66,7 @@ def job(mdir):
         except Exception as e:
             curlp += 1
             print("update failed...(date: %s)\n(Errmsg: %s)" % (tmpstr, str(e)))
-        if curlp == maxlp:
+        if curlp >= maxlp:
             sdate += datetime.timedelta(days=1)
         fw_log.flush()
     fw_log.close()
