@@ -2,8 +2,22 @@
 
 import sys
 import psycopg2
+import cx_Oracle as cxo
 import ibm_db, ibm_db_dbi
 from impala.dbapi import connect
+
+
+def get_conn_oracle():
+    try:
+        host = "10.68.1.86"
+        port = "1533"
+        dbnm = "APOLONDV"
+        user = "routgo_app"
+        pwd = "routgo1!"
+        conn = cxo.connect(user, pwd, "%s:%s/%s" % (host, port, dbnm))
+        return conn
+    except Exception as e:
+        print("Connect Error!!")
 
 
 def get_conn_postgresql():

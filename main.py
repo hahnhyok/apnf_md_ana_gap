@@ -19,8 +19,12 @@ from pyproj import Transformer
 import pandas as pd
 
 
+ifcasetest = True   # 속도 향상 테스트
+tbnm_odlist_ct = "a1_apolo_nf.mdout_apolo_nf_odlist_btob_u10"
+tbnm_res_ct = "a1_apolo_nf.mdout_apolo_nf_ana_gap_u10"
+
+
 def job(mdir):
-    print("job start...")
     maxlp = 3
     sleepsec = float(10)
     # seldates = ["20220923"]  # ["20220919", "20220920", "20220921", "20220922", "20220923"]
@@ -29,12 +33,26 @@ def job(mdir):
     # edatestr = "20221010"
 
     # sdate = datetime.datetime.strptime("20221016", "%Y%m%d")
-    sdate = datetime.datetime.now() - datetime.timedelta(days=90)    # - relativedelta(months=3)
+    curyear = datetime.datetime.now().year
+    curmon = datetime.datetime.now().month  # - relativedelta(months=3)   # - datetime.timedelta(days=90)
+    mgap = 3    # 3개월 전부터
+    curmon_str = str(curmon - mgap)
+    if curmon < 10:
+        curmon_str = "0%s" % curmon_str
+    sdate = datetime.datetime.strptime("%s%s01" % (str(curyear), curmon_str), "%Y%m%d")
     edate = datetime.datetime.now() #  - datetime.timedelta(days=1)
+    if ifcasetest:
+        print("Case Test version start !")
+        sdate = datetime.datetime.strptime("20221114", "%Y%m%d")
+        edate = datetime.datetime.strptime("20221128", "%Y%m%d")
     edatestr = edate.strftime("%Y%m%d")
+    print("job start... %s-%s" % (sdate.strftime("%Y%m%d"), edatestr))
+
     curlp = 0
     print("get exist odlists...")
     tbnm_odlist = "a1_apolo_nf.mdout_apolo_nf_odlist_btob"
+    if ifcasetest:
+        tbnm_odlist = tbnm_odlist_ct
     dt_existod = {}
     try:
         dt_existod = get_odlist_res(tbnm_odlist)
@@ -90,6 +108,9 @@ def process(mdir, seldt, fw_log, dt_existod):
     tbnm_odlist = "a1_apolo_nf.mdout_apolo_nf_odlist_btob"
     tbnm_binfo = "a1_apolo_nf.mdout_apolo_nf_buildinfo"
     tbnm_res = "a1_apolo_nf.mdout_apolo_nf_ana_gap"
+    if ifcasetest:
+        tbnm_odlist = tbnm_odlist_ct
+        tbnm_res = tbnm_res_ct
     tbnm_brinfo = "a1_apolo_nf.brinfo_apolo_nf"
     tbnm_s_bid = "a2_tes.mrt_gis_g_new_lmd_total_time_result"   # "nwdt.est_b_servtime"
     tbnm_s_btp = "a2_tes.mrt_gis_g_new_lmd_total_time_result_other" # "nwdt.est_btp_servtime"
